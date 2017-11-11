@@ -1,14 +1,20 @@
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import ReleaseTransformations._
+import sbtcrossproject.{crossProject, CrossType}
 
-lazy val macros = project
+lazy val macros = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("macros"))
   .settings(buildSettings: _*)
   .settings(publishSettings: _*)
   .settings(scalaMacroDependencies: _*)
   .settings(moduleName := "estrapade-macros")
 
-lazy val core = project
+lazy val macrosJS = macros.js
+lazy val macrosJVM = macros.jvm
+
+lazy val core = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("core"))
   .settings(buildSettings: _*)
   .settings(publishSettings: _*)
@@ -16,21 +22,29 @@ lazy val core = project
   .settings(moduleName := "estrapade")
   .dependsOn(macros)
 
-lazy val tests = project
+lazy val coreJS = core.js
+lazy val coreJVM = core.jvm
+
+lazy val tests = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("tests"))
+  .settings(scalaJSUseMainModuleInitializer := true)
   .settings(buildSettings: _*)
   .settings(noPublishSettings: _*)
   .settings(moduleName := "estrapade-tests")
   .settings(quasiQuotesDependencies)
   .dependsOn(core)
 
+lazy val testsJS = tests.js
+lazy val testsJVM = tests.jvm
+
 lazy val buildSettings = Seq(
   organization := "com.propensive",
-  scalaVersion := "2.12.2",
+  scalaVersion := "2.12.4",
   name := "estrapade",
   version := "1.0.3",
   scalacOptions ++= Seq("-deprecation", "-feature", "-Ywarn-value-discard", "-Ywarn-dead-code", "-Ywarn-nullary-unit", "-Ywarn-numeric-widen", "-Ywarn-inaccessible", "-Ywarn-adapted-args"),
-  crossScalaVersions := Seq("2.10.6", "2.11.8", "2.12.1"),
+  crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.4"),
   scmInfo := Some(ScmInfo(url("https://github.com/propensive/estrapade"),
     "scm:git:git@github.com:propensive/estrapade.git"))
 )
@@ -57,7 +71,7 @@ lazy val publishSettings = Seq(
         <url>https://github.com/propensive/estrapade/</url>
       </developer>
     </developers>
-  ),
+    ),
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
     inquireVersions,
@@ -68,7 +82,7 @@ lazy val publishSettings = Seq(
     publishArtifacts,
     setNextVersion,
     commitNextVersion,
-    ReleaseStep(action = Command.process("sonatypeReleaseAll", _)),
+    releaseStepCommand("sonatypeRelease"),
     pushChanges
   ),
   releaseCrossBuild := true,
@@ -76,16 +90,16 @@ lazy val publishSettings = Seq(
 )
 
 lazy val noPublishSettings = Seq(
-  publish := (),
-  publishLocal := (),
+  publish := List.empty,
+  publishLocal := List.empty,
   publishArtifact := false
 )
 
 import java.io.File
 
 def crossVersionSharedSources()  = Seq(
- (unmanagedSourceDirectories in Compile) ++= { (unmanagedSourceDirectories in Compile ).value.map {
-     dir:File => new File(dir.getPath + "_" + scalaBinaryVersion.value)}}
+  (unmanagedSourceDirectories in Compile) ++= { (unmanagedSourceDirectories in Compile ).value.map {
+    dir:File => new File(dir.getPath + "_" + scalaBinaryVersion.value)}}
 )
 
 lazy val quasiQuotesDependencies: Seq[Setting[_]] =

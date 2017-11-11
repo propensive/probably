@@ -33,11 +33,18 @@ object Test {
    *  failed */
   case class DependencyFailureException(dep: String) extends
       Exception("a failure occurred in a dependency")
-  
+
+  // TODO Scala js doesn't support  javax.xml.bind.DatatypeConverter and java.security.MessageDigest
   private[estrapade] def hash(name: String): String = {
-    import javax.xml.bind.DatatypeConverter, java.security.MessageDigest
-    val md5 = MessageDigest.getInstance("MD5")
-    DatatypeConverter.printHexBinary(md5.digest(name.getBytes("UTF-8"))).toLowerCase.take(6)
+    bytesToHex(name.getBytes("UTF-8")).toLowerCase.take(6)
+  }
+
+  private[estrapade] def bytesToHex(bytes: Array[Byte]): String = {
+    val builder = StringBuilder.newBuilder
+    for (b <- bytes) {
+      builder.append("%02x".format(b))
+    }
+    builder.toString
   }
 
   /** use the current [[Runner]] to produce a report of all the tests which have been run */

@@ -38,13 +38,14 @@ object CliRunner {
     val cyan: String = rgb(42, 161, 152)
     val green: String = rgb(133, 153, 0)
   }
-  
-  private val decimalFormat = {
-    val df = new java.text.DecimalFormat()
-    df.setMinimumFractionDigits(3)
-    df.setMaximumFractionDigits(3)
-    df
-  }
+
+  // TODO scalajs doesn't support java.text.DecimalFormat()
+//  private val decimalFormat = {
+//    val df = new java.text.DecimalFormat()
+//    df.setMinimumFractionDigits(3)
+//    df.setMaximumFractionDigits(3)
+//    df
+//  }
 
   private val timeUnits: List[String] = List("ns", "μs", "ms", "s", "ks")
   
@@ -168,7 +169,7 @@ class CliRunner(config: CliRunner.Config = CliRunner.Config()) extends Runner {
 
   private[this] def formatTime(time: Double, suffix: List[String] = CliRunner.timeUnits): String =
     if(time > 1e3) formatTime(time/1000L, suffix.tail)
-    else CliRunner.decimalFormat.format(time)+suffix.head
+    else time.toString+suffix.head
 
   def report(): Unit = {
     val testResults = results.foldLeft(ListMap[Test.Definition[_], List[CliRunner.Result]]()) {
