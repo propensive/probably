@@ -21,11 +21,17 @@ package probably
 import scala.util._
 import scala.collection.immutable.ListMap
 import scala.util.control.NonFatal
-
+import java.security.MessageDigest
 import language.dynamics
-import language.experimental.macros
 
 import language.implicitConversions
+
+// name.digest[Sha256].encoded[Hex].take(6).toLowerCase
+def shortDigest(text: String): String = {
+  val md = MessageDigest.getInstance("SHA-256")
+  md.update(text.getBytes)
+  md.digest.take(3).map(b => f"$b%02x").mkString
+}
 
 sealed abstract class Outcome(val passed: Boolean) {
   def failed: Boolean = !passed
@@ -103,7 +109,7 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
   abstract class Test(val name: String, map: => Map[String, String]) {
     type Type
     
-    def id: TestId = TestId(name.digest[Sha256].encoded[Hex].take(6).toLowerCase)
+    def id: TestId = TestId(shortDigest(name))
     def action(): Type
     
     def assert(predicate: Type => Boolean): Unit =
@@ -139,7 +145,7 @@ class Runner(specifiedTests: Set[TestId] = Set()) extends Dynamic {
   
   @volatile
   protected var results: Map[String, Summary] = ListMap[String, Summary]().withDefault { name =>
-    Summary(TestId(name.digest[Sha256].encoded[Hex].take(6).toLowerCase), name, 0, Int.MaxValue, 0L,
+    Summary(TestId(shortDigest(name)), name, 0, Int.MaxValue, 0L,
         Int.MinValue, Passed)
   }
 }

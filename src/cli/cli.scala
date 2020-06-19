@@ -17,7 +17,6 @@
 package probably
 
 import escritoire._
-import gastronomy._
 
 object Tests {
   import Ansi.Color._
@@ -47,7 +46,7 @@ abstract class Tests() {
     }
 
     val status = Heading[Summary, Outcome]("", _.outcome)
-    val hash = Heading[Summary, String]("Hash", _.name.digest[Sha256].encoded[Hex].take(6).toLowerCase)
+    val hash = Heading[Summary, String]("Hash", i => shortDigest(i.name))
     val name = Heading[Summary, String]("Test", s => s"${"  "*s.indent}${s.name}")
     val count = Heading[Summary, Int]("Count", _.count)
     val min = Heading[Summary, Double]("Min", _.min)
