@@ -31,7 +31,7 @@ abstract class Tests() {
   def run(test: Runner): Unit
   
   final def main(args: Array[String]): Unit = {
-    val test = new Runner(args.map(TestId(_)).to[Set])
+    val test = new Runner(args.map(TestId(_)).toSet)
     run(test)
     val report = test.report()
     val simple = report.results.forall(_.count == 1)
@@ -69,7 +69,7 @@ abstract class Tests() {
     val legend = Tests.statuses.zip(List("Pass", "Fail", "Throws exception during check", "Throws exception",
         "Fails sometimes", "Test suite partially fails")).map { case (status, description) =>
       s"${status} ${description.padTo(32, ' ')}"
-    }.to[List]
+    }.toList
     
     legend.take(3).zip(legend.drop(3)).map { case (left, right) => println((" "*2)+left+right) }
     
