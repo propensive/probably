@@ -55,3 +55,11 @@ lazy val cli = (project in file(".cli"))
     Compile / scalaSource := baseDirectory.value / ".." / "src" / "cli",
     libraryDependencies += "com.propensive" %% "escritoire-core" % "0.3.0"
   )
+
+lazy val probablySbt = (project in file(".sbt"))
+  .dependsOn(cli)
+  .settings(
+    name := "probably-sbt",
+    Compile / scalaSource := baseDirectory.value / ".." / "src" / "sbt",
+    libraryDependencies += "org.scala-sbt" % "test-interface" % "1.0"
+  )
