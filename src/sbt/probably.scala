@@ -21,24 +21,24 @@ import probably._
 
 class Framework extends testing.Framework {
 
-  def name(): String = "Probably"
+  override def name(): String = "Probably"
 
-  def fingerprints(): Array[testing.Fingerprint] =
+  override def fingerprints(): Array[testing.Fingerprint] =
     Array(new testing.SubclassFingerprint {
       def isModule: Boolean = true
       def superclassName(): String = "probably.Suite"
       def requireNoArgConstructor(): Boolean = true
     })
-  
-  def runner(args: Array[String],
-             remoteArgs: Array[String],
-             testClassLoader: ClassLoader): testing.Runner =
+
+  override def runner(_args: Array[String],
+                      _remoteArgs: Array[String],
+                      _testClassLoader: ClassLoader): testing.Runner =
     new testing.Runner {
-      def args(): Array[String] = args
-      def remoteArgs(): Array[String] = remoteArgs
+      def args(): Array[String] = _args
+      def remoteArgs(): Array[String] = _remoteArgs
       def done(): String = ""
       def tasks(list: Array[testing.TaskDef]): Array[testing.Task] =
-        list.map(t => Task(t, args))
+        list.map(t => Task(t, _args))
       def receiveMessage(msg: String): Option[String] = None  
     }
 }
@@ -54,7 +54,7 @@ case class Task(
       .get(null)
       .asInstanceOf[Suite]    
   
-  def execute(
+  override def execute(
       eh: testing.EventHandler, 
       ls: Array[testing.Logger]): Array[testing.Task] = {
 
@@ -77,7 +77,7 @@ case class Task(
     Array.empty  
   } 
 
-  def tags(): Array[String] = 
+  override def tags(): Array[String] =
     Array.empty
 
   def indent(i: Int): String = 

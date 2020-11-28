@@ -16,3 +16,10 @@ jobs:
       run: |
         ./fury build run --output linear --https
       timeout-minutes: 5
+
+    - name: SBT action test
+      id: sbt
+      uses: lokkju/github-action-sbt@master
+      with:
+        commands: test
+        sbt_project_directory: ./test

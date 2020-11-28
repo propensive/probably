@@ -61,5 +61,15 @@ lazy val probablySbt = (project in file(".sbt"))
   .settings(
     name := "probably-sbt",
     Compile / scalaSource := baseDirectory.value / ".." / "src" / "sbt",
-    libraryDependencies += "org.scala-sbt" % "test-interface" % "1.0"
+    libraryDependencies += "org.scala-sbt" % "test-interface" % "1.0",
+    (sourceDirectories in Test) := Seq(new File("src/test"))
+  )
+
+lazy val test = (project in file(".test"))
+  .dependsOn(probablySbt)
+  .settings(
+    name := "test",
+    Compile / scalaSource := baseDirectory.value / ".." / "src" / "test",
+    Test / scalaSource := baseDirectory.value / ".." / "src" / "test",
+    testFrameworks := Seq(new TestFramework("probably.sbt.Framework"))
   )
