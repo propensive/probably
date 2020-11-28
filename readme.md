@@ -1,4 +1,9 @@
-<a href="https://furore.dev/propensive/probably"><img src="/doc/images/furore.png" style="vertical-align:middle" valign="middle"></a>&nbsp;&nbsp;<a href="https://furore.dev/propensive/probably">__Develop with Fury__ </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://riot.im/app/#/room/#propensive.probably:matrix.org"><img src="/doc/images/riotim.png" style="vertical-arign:middle" valign="middle"></a>&nbsp;&nbsp;<a href="https://riot.im/app/#/room/#propensive.probably:matrix.org">__Discuss on Riot__</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://search.maven.org/search?q=g:com.propensive%20AND%20a:probably_2.12"><img src="/doc/images/mavencentral.png" style="vertical-arign:middle" valign="middle"></a>&nbsp;&nbsp;<a href="https://search.maven.org/search?q=g:com.propensive%20AND%20a:probably_2.12">__Download from Maven Central__</a>
+[<img src="https://img.shields.io/gitter/room/propensive/probably?color=f00762&style=for-the-badge" height="24">](https://gitter.im/propensive/probably)
+[<img src="https://img.shields.io/discord/633198088311537684?color=8899f7&label=DISCORD&style=for-the-badge" height="24">](https://discord.gg/CHCPjERybv)
+[<img src="https://img.shields.io/matrix/propensive.probably:matrix.org?label=MATRIX&color=0dbd8b&style=for-the-badge" height="24">](https://app.element.io/#/room/#propensive.probably:matrix.org)
+[<img src="https://img.shields.io/twitter/follow/propensive?color=%2300acee&label=TWITTER&style=for-the-badge" height="24">](https://twitter.com/propensive)
+[<img src="https://img.shields.io/maven-central/v/com.propensive/probably-core_2.12?color=2465cd&style=for-the-badge" height="24">](https://search.maven.org/artifact/com.propensive/probably-core_2.12)
+[<img src="https://img.shields.io/badge/Vent-propensive%2Fprobably-f05662?style=for-the-badge" height="24">](https://vent.dev)
 
 <img src="/doc/images/github.png" valign="middle">
 
