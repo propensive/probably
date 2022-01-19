@@ -203,7 +203,10 @@ case class Debug(found: Option[Text] = None, filename: Maybe[Text] = Unset, line
 
 object Macros:
   import scala.reflect.*
-  def assert[T: Type](runner: Expr[Runner], test: Expr[Runner#Test { type Type = T }], pred: Expr[T => Boolean], log: Expr[Log])(using Quotes): Expr[Unit] =
+  def assert[T: Type](runner: Expr[Runner], test: Expr[Runner#Test { type Type = T }],
+                          pred: Expr[T => Boolean], log: Expr[Log])
+                     (using Quotes)
+                     : Expr[Unit] =
     import quotes.reflect.*
     
     val filename: Expr[String] = Expr:
